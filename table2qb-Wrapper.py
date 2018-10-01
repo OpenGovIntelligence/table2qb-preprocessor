@@ -49,7 +49,7 @@ class table2qbWrapper(object):
         cube_ouptfile = self.unique_folder_for_each_run + 'cube__' + self.datasetname + '.ttl'
         subprocess.call(
             ["java", "-jar", self._executable, 'exec', 'cube-pipeline', '--input-csv', self._input_observations,
-             '--dataset-name', self.datasetname, '--dataset-slug', 'TEST', '--column-config', self._input_columns,
+             '--dataset-name', self.datasetname, '--dataset-slug', self.slug , '--column-config', self._input_columns,
              '--base-uri', self.baseURI, '--output-file', cube_ouptfile])
 
         # code list pipeline
