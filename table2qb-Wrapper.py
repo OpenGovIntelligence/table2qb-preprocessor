@@ -3,10 +3,10 @@ import pandas as pd
 import datetime
 import os
 import sys
-import csv, copy
 
 
 class table2qbWrapper(object):
+
     def __init__(self):
         self._executable = "table2qb.jar"
         self._input_components = "components.csv"
@@ -68,9 +68,7 @@ class table2qbWrapper(object):
         # get dimesions names list
         components_df = pd.read_csv(self._input_components)
         dimensions_df = components_df[(components_df['Component Type'] == 'Dimension')]
-        # print dimensions_df
         self.dimensions_list = dimensions_df['Label'].tolist()
-        # print dimensions_list
 
         # get observation/dimensions values
         observations_df = pd.read_csv(self._input_observations)
@@ -84,11 +82,8 @@ class table2qbWrapper(object):
             dim_values_list = observations_df[dimension].tolist()
             # get unique values of dim
             unique_dime_vals_list = list(set(dim_values_list))
-            # print unique_dime_vals_list
             dimCodeList_df['Label'] = unique_dime_vals_list
             dimCodeList_df['Notation'] = map(str.lower, unique_dime_vals_list)
-            # print dimCodeList_df
-
             # dataframe to csv
             CodeListcsvFileName = self.unique_folder_for_each_run + dimension + '.csv'
             dimCodeList_df.to_csv(CodeListcsvFileName, sep=',', encoding='utf-8', index=False)
