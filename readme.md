@@ -3,7 +3,9 @@ table2qb-python-wrapper
 ----------
 
 A- Python wrapper for the clujore tool [table2qb]
+
 B - Auto Generates the codelist inputs for table2qb based on the components description and observations values.
+
 C- [webservice] enabling table2qb as webserbice -- not yet implemnted.
 
 ### usage
