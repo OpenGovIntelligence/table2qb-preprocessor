@@ -12,4 +12,4 @@ C- [webservice] enabling table2qb as webserbice -- not yet implemnted.
 
 ### example
 
-> $ python table2qb-Wrapper.py test_ds marine.ie/obs test_slug components.csv observations.csv columns.csv
+> $ python table2qb-Wrapper.py test_ds marine.ie/obs test_slug example1/components.csv example1/observations.csv example1/columns.csv
