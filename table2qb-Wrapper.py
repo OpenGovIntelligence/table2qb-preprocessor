@@ -4,6 +4,7 @@ import datetime
 import os
 import sys
 import copy
+import csv
 
 
 class table2qbWrapper(object):
@@ -64,7 +65,7 @@ class table2qbWrapper(object):
                  '--base-uri', self.baseURI, '--output-file', cube_ouptfile])
 
         if self.pipelineName == 'codelist-pipeline':
-            
+
             # generate code lists
             self.generate_code_lists()
 
@@ -148,9 +149,15 @@ class table2qbWrapper(object):
             del new_observations_row [:]
 
         #save observations to csv
-        readyObs_df = pd.DataFrame(new_observations_list, columns=new_observations_header)
+        #readyObs_df = pd.DataFrame(new_observations_list, columns=new_observations_header)
         readyObsFileName = self.unique_folder_for_each_run + 'input' + '.csv'
-        readyObs_df.to_csv(readyObsFileName, sep=',', encoding='utf-8', index=False)
+        #readyObs_df.to_csv(readyObsFileName, sep=',', encoding='utf-8', index=False)
+        with open(readyObsFileName, 'wb') as myfile:
+            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+            #add header
+            wr.writerow(new_observations_header)
+            for row in new_observations_list:
+                wr.writerow(row)
 
         return readyObsFileName
 
