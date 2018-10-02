@@ -6,12 +6,14 @@ A- Python wrapper for the clujore tool [table2qb]
 
 B - Auto Generates the codelist inputs for table2qb based on the components description and observations values.
 
-C- [webservice] Enabling table2qb as webservice -- not yet implemented.
+C- change observations formate [from multible measure per row to one measure per row]
+
+D- [webservice] Enabling table2qb as webservice -- not yet implemented.
 
 ### usage
 
-> $ python table2qb-Wrapper.py [dataset name] [base uri] [slug] [components file] [observations] [columns config]
+> $ python table2qb-Wrapper.py [pipeline name] [dataset name] [base uri] [slug] [components file] [observations] [columns config]
 
 ### example
 
-> $ python table2qb-Wrapper.py test_ds marine.ie/obs test_slug example1/components.csv example1/observations.csv example1/columns.csv
+> $ python table2qb-Wrapper.py codelist-pipeline test_ds marine.ie/obs test_slug example1/components.csv example1/observations.csv example1/columns.csv
