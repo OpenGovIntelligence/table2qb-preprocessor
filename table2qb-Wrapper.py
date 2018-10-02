@@ -143,10 +143,11 @@ class table2qbWrapper(object):
                 new_observations_row.append('')
                 #value
                 new_observations_row.append(copy.deepcopy(row[measure]))
-            #append to final list
-            new_observations_list.append(copy.deepcopy(new_observations_row))
-            #clean
-            del new_observations_row [:]
+
+                # append to final list
+                new_observations_list.append(copy.deepcopy(new_observations_row))
+                # clean
+                del new_observations_row[:]
 
         #save observations to csv
         #readyObs_df = pd.DataFrame(new_observations_list, columns=new_observations_header)
@@ -155,7 +156,7 @@ class table2qbWrapper(object):
         with open(readyObsFileName, 'wb') as myfile:
             wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
             #add header
-            wr.writerow(new_observations_header)
+            #wr.writerow(new_observations_header)
             for row in new_observations_list:
                 wr.writerow(row)
 
