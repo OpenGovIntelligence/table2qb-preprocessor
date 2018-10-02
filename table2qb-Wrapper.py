@@ -17,7 +17,7 @@ class table2qbWrapper(object):
         self._input_columns = 'columns.csv'
         self._output_files_list = []
         self.codeListHeaders = ['Label', 'Notation', 'Parent Notation']
-        self.observationFileHeaders = ['Measure Type', 'Value']
+        self.observationFileHeaders = ['Measure Type', 'value']
 
         self.unique_folder_for_each_run = 'data/'
         self.dimensions_list = []
