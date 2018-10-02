@@ -17,6 +17,7 @@ class table2qbWrapper(object):
         self.codeListHeaders = ['Label', 'Notation', 'Parent Notation']
         self.unique_folder_for_each_run = 'data/'
         self.dimensions_list = []
+        self.measures_list = []
         self.datasetname = 'myDs'
         self.baseURI = 'http://example.com/dataset/'
         self.slug = 'test'
@@ -90,24 +91,23 @@ class table2qbWrapper(object):
             # get unique values of dim
             unique_dime_vals_list = list(set(dim_values_list))
             dimCodeList_df['Label'] = unique_dime_vals_list
-            dimCodeList_df['Notation'] = map(str.lower, unique_dime_vals_list)
+            dimCodeList_df['Notation'] = unique_dime_vals_list
             # dataframe to csv
             CodeListcsvFileName = self.unique_folder_for_each_run + dimension + '.csv'
             dimCodeList_df.to_csv(CodeListcsvFileName, sep=',', encoding='utf-8', index=False)
 
     def generate_single_row_observations(self):
 
-        # get dimesions names list
+        # get measures names list
         components_df = pd.read_csv(self._input_components)
-        dimensions_df = components_df[(components_df['Component Type'] == 'Dimension')]
-        self.dimensions_list = dimensions_df['Label'].tolist()
+        measures_df = components_df[(components_df['Component Type'] == 'Measure')]
+        self.measures_list = measures_df['Label'].tolist()
 
-        # get observation/dimensions values
+        # get observation/measures values
         observations_df = pd.read_csv(self._input_observations)
 
-        # do the generation thingy
-        self.unique_folder_for_each_run = self.generate_folder_name()
-        for dimension in self.dimensions_list:
+
+        for measure in self.measures_list:
             # create final code list data frame
             dimCodeList_df = pd.DataFrame(columns=self.codeListHeaders)
             # get dim values
