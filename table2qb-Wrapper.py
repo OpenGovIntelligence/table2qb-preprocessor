@@ -1,3 +1,4 @@
+from __future__ import division   # a/b is float division
 import subprocess
 import pandas as pd
 import datetime
@@ -5,7 +6,6 @@ import os
 import sys
 import copy
 import csv
-from __future__ import division   # a/b is float division
 from math import ceil
 
 
@@ -27,6 +27,7 @@ class table2qbWrapper(object):
         self.datasetname = 'myDs'
         self.baseURI = 'http://example.com/dataset/'
         self.slug = 'test'
+        self.files_count = 1
 
     def run_full_table2qb_pipes(self):
 
@@ -58,13 +59,15 @@ class table2qbWrapper(object):
             #generate single measure per row observation file
             ready_input_file = self.generate_single_row_observations()
 
+
             # cube pipeline
             subprocess.call(["java", "-jar", self._executable, 'describe', 'cube-pipeline'])
             cube_ouptfile = self.unique_folder_for_each_run + 'cube__' + self.datasetname + '.ttl'
-            subprocess.call(
-                ["java", "-jar", self._executable, 'exec', 'cube-pipeline', '--input-csv', ready_input_file,
-                 '--dataset-name', self.datasetname, '--dataset-slug', self.slug , '--column-config', self._input_columns,
-                 '--base-uri', self.baseURI, '--output-file', cube_ouptfile])
+            for i in range (0, self.files_count):
+                subprocess.call(
+                    ["java", "-jar", self._executable, 'exec', 'cube-pipeline', '--input-csv', ready_input_file+'_p'+str(i),
+                     '--dataset-name', self.datasetname, '--dataset-slug', self.slug , '--column-config', self._input_columns,
+                     '--base-uri', self.baseURI, '--output-file', cube_ouptfile+'_p'+str(i)])
 
         if self.pipelineName == 'codelist-pipeline':
 
@@ -158,10 +161,10 @@ class table2qbWrapper(object):
 
         #save observations to csv [using csv writer]
         total_size = observations_df.size
-        files_count = int(ceil(total_size/5000))
-        
-        for i in range(0, len(new_observations_list), files_count):
-            chucnkList =  new_observations_list[i:i + files_count]
+        self.files_count = int(ceil(total_size/5000))
+
+        for i in range(0, len(new_observations_list), self.files_count):
+            chucnkList =  new_observations_list[i:i + self.files_count]
             with open(readyObsFileName+'_p'+str(i), 'wb') as myfile:
                 wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
                 #add header
