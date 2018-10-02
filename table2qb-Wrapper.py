@@ -149,16 +149,17 @@ class table2qbWrapper(object):
                 # clean
                 del new_observations_row[:]
 
-        #save observations to csv
-        #readyObs_df = pd.DataFrame(new_observations_list, columns=new_observations_header)
+        #save observations to csv [using pandas]
+        readyObs_df = pd.DataFrame(new_observations_list, columns=new_observations_header)
         readyObsFileName = self.unique_folder_for_each_run + 'input' + '.csv'
-        #readyObs_df.to_csv(readyObsFileName, sep=',', encoding='utf-8', index=False)
-        with open(readyObsFileName, 'wb') as myfile:
-            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+        readyObs_df.to_csv(readyObsFileName, chunksize=5000, sep=',', encoding='utf-8', index=False)
+        #save observations to csv [using csv writer]
+        #with open(readyObsFileName, 'wb') as myfile:
+         #   wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
             #add header
             #wr.writerow(new_observations_header)
-            for row in new_observations_list:
-                wr.writerow(row)
+         #   for row in new_observations_list:
+          #      wr.writerow(row)
 
         return readyObsFileName
 
