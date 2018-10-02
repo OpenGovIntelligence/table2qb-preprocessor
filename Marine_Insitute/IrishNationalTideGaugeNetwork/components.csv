@@ -1,0 +1,11 @@
+Label,Description,Component Type,Codelist
+longitude (degrees_east),,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/longitude
+latitude (degrees_north),,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/latitude
+altitude (m),,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/altitude
+time (UTC),,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/time
+station_id,,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/station_id
+datasourceid,,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/datasource_id
+Water_Level (m),,Measure,
+Water_Level_LAT (m),,Measure,
+Water_Level_OD_Malin (m),,Measure,
+QC_Flag,,Measure,

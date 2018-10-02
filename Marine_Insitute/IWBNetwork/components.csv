@@ -1,0 +1,19 @@
+Label,Description,Component Type,Codelist
+station_id,,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/station_id
+longitude (degrees_east),,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/longitude
+latitude (degrees_north),,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/latitude
+time (UTC),time,Dimension,http://www.opengovintelligence.eu/statistics/marine-institute/concept-scheme/time
+AtmosphericPressure,,Measure,
+WindDirection,,Measure,
+WindSpeed,,Measure,
+Gust,,Measure,
+WaveHeight,,Measure,
+WavePeriod,,Measure,
+MeanWaveDirection,,Measure,
+Hmax,,Measure,
+AirTemperature,,Measure,
+DewPoint,,Measure,
+SeaTemperature,,Measure,
+salinity,,Measure,
+RelativeHumidity,,Measure,
+QC_Flag,,Measure,
