@@ -5,6 +5,8 @@ import os
 import sys
 import copy
 import csv
+from __future__ import division   # a/b is float division
+from math import ceil
 
 
 class table2qbWrapper(object):
@@ -128,7 +130,7 @@ class table2qbWrapper(object):
         for new_head in self.observationFileHeaders:
             new_observations_header.append(new_head)
         #append to final list
-        new_observations_list.append(copy.deepcopy(new_observations_header))
+        #new_observations_list.append(copy.deepcopy(new_observations_header))
 
 
         #extract measures values
@@ -150,16 +152,22 @@ class table2qbWrapper(object):
                 del new_observations_row[:]
 
         #save observations to csv [using pandas]
-        readyObs_df = pd.DataFrame(new_observations_list, columns=new_observations_header)
+        #readyObs_df = pd.DataFrame(new_observations_list, columns=new_observations_header)
         readyObsFileName = self.unique_folder_for_each_run + 'input' + '.csv'
-        readyObs_df.to_csv(readyObsFileName, chunksize=5000, sep=',', encoding='utf-8', index=False)
+        #readyObs_df.to_csv(readyObsFileName, sep=',', chunksize=5000, encoding='utf-8', index=False)
+
         #save observations to csv [using csv writer]
-        #with open(readyObsFileName, 'wb') as myfile:
-         #   wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-            #add header
-            #wr.writerow(new_observations_header)
-         #   for row in new_observations_list:
-          #      wr.writerow(row)
+        total_size = observations_df.size
+        files_count = int(ceil(total_size/5000))
+        
+        for i in range(0, len(new_observations_list), files_count):
+            chucnkList =  new_observations_list[i:i + files_count]
+            with open(readyObsFileName+'_p'+str(i), 'wb') as myfile:
+                wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+                #add header
+                wr.writerow(new_observations_header)
+                for row in chucnkList:
+                    wr.writerow(row)
 
         return readyObsFileName
 
@@ -175,6 +183,10 @@ class table2qbWrapper(object):
             os.makedirs(folder_name + '/')
         return folder_name + '/'
 
+    def chunks(self, inputList=[], numberOfChuncks = 1):
+        """Yield successive n-sized chunks from l."""
+        for i in range(0, len(inputList), numberOfChuncks):
+            yield  inputList[i:i + numberOfChuncks]
 
 if __name__ == "__main__":
     table2qb = table2qbWrapper()
