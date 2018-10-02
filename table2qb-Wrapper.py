@@ -17,7 +17,7 @@ class table2qbWrapper(object):
         self._input_columns = 'columns.csv'
         self._output_files_list = []
         self.codeListHeaders = ['Label', 'Notation', 'Parent Notation']
-        self.observationFileHeaders = ['Measure Type', 'Unit', 'Value']
+        self.observationFileHeaders = ['Measure Type', 'Value']
 
         self.unique_folder_for_each_run = 'data/'
         self.dimensions_list = []
@@ -140,7 +140,7 @@ class table2qbWrapper(object):
                 #mesure type
                 new_observations_row.append(measure)
                 #unit
-                new_observations_row.append('')
+                #new_observations_row.append('')
                 #value
                 new_observations_row.append(copy.deepcopy(row[measure]))
 
