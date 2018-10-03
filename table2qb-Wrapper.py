@@ -161,11 +161,11 @@ class table2qbWrapper(object):
 
         #save observations to csv [using csv writer]
         total_size = len(new_observations_list) #observations_df.size
-        chucnkSize = 500000
+        chucnkSize = 50000
         self.files_count = int(ceil(total_size/chucnkSize))
 
 
-        counter =  self.files_count
+        counter =  0
         for i in range(0, len(new_observations_list), chucnkSize):
             chucnkList =  new_observations_list[i:i + chucnkSize]
             with open(readyObsFileName+'_p'+str(counter), 'wb') as myfile:
@@ -174,7 +174,7 @@ class table2qbWrapper(object):
                 wr.writerow(new_observations_header)
                 for row in chucnkList:
                     wr.writerow(row)
-                counter -=1
+                counter +=1
 
         return readyObsFileName
 
