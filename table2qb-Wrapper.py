@@ -62,12 +62,12 @@ class table2qbWrapper(object):
 
             # cube pipeline
             subprocess.call(["java", "-jar", self._executable, 'describe', 'cube-pipeline'])
-            cube_ouptfile = self.unique_folder_for_each_run + 'cube__' + self.datasetname + '.ttl'
+            cube_ouptfile = self.unique_folder_for_each_run + 'cube_' + self.datasetname
             for i in range (0, self.files_count):
                 subprocess.call(
                     ["java", "-jar", self._executable, 'exec', 'cube-pipeline', '--input-csv', ready_input_file+'_p'+str(i),
                      '--dataset-name', self.datasetname, '--dataset-slug', self.slug , '--column-config', self._input_columns,
-                     '--base-uri', self.baseURI, '--output-file', cube_ouptfile+'_p'+str(i)])
+                     '--base-uri', self.baseURI, '--output-file', cube_ouptfile+'_p'+str(i)+'.ttl'])
 
         if self.pipelineName == 'codelist-pipeline':
 
@@ -200,6 +200,6 @@ class table2qbWrapper(object):
 if __name__ == "__main__":
     table2qb = table2qbWrapper()
     # table2qb.generate_code_lists()
-    # print table2qb.generate_folder_name()
+    #print table2qb.generate_folder_name()
     # print table2qb.generate_single_row_observations()
     table2qb.run_full_table2qb_pipes()

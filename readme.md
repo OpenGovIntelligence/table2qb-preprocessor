@@ -8,7 +8,9 @@ B - Auto Generates the codelist inputs for table2qb based on the components desc
 
 C- change observations formate [from multible measure per row to one measure per row]
 
-D- [webservice] Enabling table2qb as webservice -- not yet implemented.
+D- Handles chunking of big datasets [to resolve memory limitation of table2qb]. 
+
+E- [webservice] Enabling table2qb as webservice -- not yet implemented.
 
 ### usage
 
