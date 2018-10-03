@@ -175,6 +175,8 @@ class table2qbWrapper(object):
                 for row in chucnkList:
                     wr.writerow(row)
                 counter +=1
+            #clear memory
+            del chucnkList [:]
 
         return readyObsFileName
 
