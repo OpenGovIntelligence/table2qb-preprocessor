@@ -7,6 +7,7 @@ import sys
 import copy
 import csv
 from math import ceil
+import math
 
 
 class table2qbWrapper(object):
@@ -24,6 +25,7 @@ class table2qbWrapper(object):
         self.unique_folder_for_each_run = 'data/'
         self.dimensions_list = []
         self.measures_list = []
+        self.slugized_list = []
         self.datasetname = 'myDs'
         self.baseURI = 'http://example.com/dataset/'
         self.slug = 'test'
@@ -93,6 +95,11 @@ class table2qbWrapper(object):
         dimensions_df = components_df[(components_df['Component Type'] == 'Dimension')]
         self.dimensions_list = dimensions_df['Label'].tolist()
 
+         #get slugized values
+        columns_df = pd.read_csv(self._input_columns)
+        slugized_df = columns_df[(columns_df['value_transformation'] == 'slugize')]
+        self.slugized_list = slugized_df['title'].tolist()
+
         # get observation/dimensions values
         observations_df = pd.read_csv(self._input_observations)
 
@@ -104,8 +111,20 @@ class table2qbWrapper(object):
             dim_values_list = observations_df[dimension].tolist()
             # get unique values of dim
             unique_dime_vals_list = list(set(dim_values_list))
+            #If dimension values are slugized, notation values are also slugized in codelist. 
+            notation_values_list = []
+            if (dimension in self.slugized_list) :
+                #slugify the values
+                slugized_unique_dime_vals_list = []
+                for value in unique_dime_vals_list :
+                    slugized_unique_dime_vals_list.append(str(value).lower().replace(" ", "-"))
+                notation_values_list = slugized_unique_dime_vals_list
+            #Otherwise, the values are copied exactly. 
+            else :
+                notation_values_list = unique_dime_vals_list
+
             dimCodeList_df['Label'] = unique_dime_vals_list
-            dimCodeList_df['Notation'] = unique_dime_vals_list
+            dimCodeList_df['Notation'] = notation_values_list
             # dataframe to csv
             CodeListcsvFileName = self.unique_folder_for_each_run + dimension + '.csv'
             dimCodeList_df.to_csv(CodeListcsvFileName, sep=',', encoding='utf-8', index=False)
@@ -118,6 +137,7 @@ class table2qbWrapper(object):
         self.measures_list = measures_df['Label'].tolist()
         dimensions_df = components_df[(components_df['Component Type'] == 'Dimension')]
         self.dimensions_list = dimensions_df['Label'].tolist()
+
 
         # get observation/measures values
         observations_df = pd.read_csv(self._input_observations)
@@ -139,20 +159,21 @@ class table2qbWrapper(object):
         #extract measures values
         for index, row in observations_df.iterrows():
             for measure in self.measures_list:
-                #dim values
-                for dim in self.dimensions_list:
-                    new_observations_row.append(copy.deepcopy(row[dim]))
-                #mesure type
-                new_observations_row.append(measure)
-                #unit
-                #new_observations_row.append('')
-                #value
-                new_observations_row.append(copy.deepcopy(row[measure]))
+                if (not math.isnan(row[measure])):
+                    #dim values
+                    for dim in self.dimensions_list:
+                        new_observations_row.append(copy.deepcopy(row[dim]))
+                    #mesure type
+                    new_observations_row.append(measure)
+                    #unit
+                    #new_observations_row.append('')
+                    #value
+                    new_observations_row.append(copy.deepcopy(row[measure]))
 
-                # append to final list
-                new_observations_list.append(copy.deepcopy(new_observations_row))
-                # clean
-                del new_observations_row[:]
+                    # append to final list
+                    new_observations_list.append(copy.deepcopy(new_observations_row))
+                    # clean
+                    del new_observations_row[:]
 
         #save observations to csv [using pandas]
         #readyObs_df = pd.DataFrame(new_observations_list, columns=new_observations_header)
